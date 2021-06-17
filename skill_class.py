@@ -1,6 +1,6 @@
 class Skill():
 
-    def __init__(self, name: str, total_points: int, max_points: int, requirement_skills: list, skill_description: str, image_path: str):
+    def __init__(self, name: str, total_points: int, max_points: int, requirement_skills: list, skill_description: list, image_path: str):
         self.t_points = total_points
         self.m_points = max_points
         self.r_skills = requirement_skills
@@ -36,29 +36,20 @@ class Skill():
         return self.r_skills
 
     def setRSkills(self, newRSkills: list):
-        self.r_skills = []
-        if newRSkills:
-            for skill in newRSkills:
-                self.r_skills.append(skill)
-
-    def addRSkills(self, newSkill: 'Skill'):
-        self.RSkills.append(newSkill)
-
-    def removeRSkills(self, skillToRemove: 'Skill'):
-        try:
-            self.RSkills.remove(skillToRemove)
-        except Exception as err:
-            print(err)
-            print("Check your input.")
+        self.r_skills = newRSkills
 
     def getDesc(self):
         return self.desc
 
-    def setDesc(self, new_desc: str):
+    def setDesc(self, new_desc: list):
         self.desc = new_desc
 
     def getIPath(self):
         return self.i_path
 
     def setIPath(self, new_i_path: str):
-        self.i_path = new_i_path
+        file_type = new_i_path[-4:]
+        if file_type == '.png' or file_type == '.jpg':
+            self.i_path = new_i_path
+        else:
+            return -1

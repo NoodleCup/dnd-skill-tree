@@ -1,11 +1,13 @@
 import unittest
+import sys
+sys.path.append('..')
 
 from skill_class import Skill
 
-testReqSkill1 = Skill(name = "test1", total_points = 0, max_points = 1, requirement_skills = [], skill_description = 'test1', image_path = 'test1_image_path.png')
-testReqSkill2 = Skill(name = "test2", total_points = 0, max_points = 1, requirement_skills = [], skill_description = 'test2', image_path = 'test2_image_path.png')
-testReqSkill3 = Skill(name = "test3", total_points = 0, max_points = 1, requirement_skills = [], skill_description = 'test3', image_path = 'test3_image_path.png')
-testSkill = Skill(name = "test", total_points = 0, max_points = 1, requirement_skills = [testReqSkill1, testReqSkill2], skill_description = 'test', image_path = 'test_image_path.png')
+testReqSkill1 = Skill(name = "test1", total_points = 0, max_points = 1, requirement_skills = [], skill_description = ['test1'], image_path = 'test1_image_path.png')
+testReqSkill2 = Skill(name = "test2", total_points = 0, max_points = 1, requirement_skills = [], skill_description = ['test2'], image_path = 'test2_image_path.png')
+testReqSkill3 = Skill(name = "test3", total_points = 0, max_points = 1, requirement_skills = [], skill_description = ['test3'], image_path = 'test3_image_path.png')
+testSkill = Skill(name = "test", total_points = 0, max_points = 1, requirement_skills = [testReqSkill1, testReqSkill2], skill_description = ['test'], image_path = 'test_image_path.png')
 
 class TestSkillClass(unittest.TestCase):
 
@@ -36,8 +38,8 @@ class TestSkillClass(unittest.TestCase):
         self.assertEqual(testSkill.getMPoints(), 5)
         testSkill.setMPoints(0)
         self.assertEqual(testSkill.getMPoints(), 0)
-        testSkill.setMPoints(1)
         self.assertEqual(testSkill.setMPoints(-5), -1)
+        testSkill.setMPoints(1)
 
     def test_getRSkills(self):
         self.assertEqual(testSkill.getRSkills()[0].getName(), 'test1')
@@ -49,8 +51,26 @@ class TestSkillClass(unittest.TestCase):
         self.assertEqual(testSkill.getRSkills()[1].getName(), 'test2')
         testSkill.setRSkills([])
         self.assertEqual(testSkill.getRSkills(), [])
+        testSkill.setRSkills([testReqSkill1, testReqSkill2])
 
+    def test_getDesc(self):
+        self.assertEqual(testSkill.getDesc()[0], 'test')
 
+    def test_setDesc(self):
+        testSkill.setDesc(['tester', 'testie'])
+        self.assertEqual(testSkill.getDesc(), ['tester', 'testie'])
+        testSkill.setDesc(['test'])
+
+    def test_getIPath(self):
+        self.assertEqual(testSkill.getIPath(), 'test_image_path.png')
+
+    def test_setIPath(self):
+        testSkill.setIPath('new_i_path.png')
+        self.assertEqual(testSkill.getIPath(), 'new_i_path.png')
+        testSkill.setIPath('new_i_path.jpg')
+        self.assertEqual(testSkill.getIPath(), 'new_i_path.jpg')
+        self.assertEqual(testSkill.setIPath('notthestringyouarelookingfor'), -1)
+        testSkill.setIPath('test_image_path.png')
 
 if __name__ == '__main__':
     unittest.main()
